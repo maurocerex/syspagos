@@ -4,19 +4,21 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PagosDTO implements Serializable {
+public class PagosDto implements Serializable {
 
     private Integer idPago;
     private String concepto;
     private Integer cantidad;
-    private String usuarioMovimiento;
-    private String clientePago;
+    private String clienteEmisor;
+    private String clienteReceptor;
     private Double montoPago;
     private String estatusPago;
+    private Date feechaPago;
 
 }

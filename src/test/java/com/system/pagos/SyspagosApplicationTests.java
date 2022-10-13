@@ -2,7 +2,7 @@ package com.system.pagos;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.system.pagos.domain.PagosDTO;
+import com.system.pagos.domain.PagosDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ class SyspagosApplicationTests {
 
 	@Test
 	void getallPagos() throws Exception {
-		String uri = "/v1/pagos/allPagos";
+		String uri = "/v1/pagos/";
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(uri)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 		log.info("Resultado :: {}", mvcResult.getResponse().getStatus());
@@ -47,12 +47,12 @@ class SyspagosApplicationTests {
 	@Test
 	void createPago() throws Exception {
 		String uri = "/v1/pagos";
-		PagosDTO pago = new PagosDTO();
-		pago.setClientePago("TEST");
+		PagosDto pago = new PagosDto();
+		pago.setClienteEmisor("Cliente_Emisor");
 		pago.setEstatusPago("ACTIVO");
-		pago.setMontoPago(100.20);
-		pago.setUsuarioMovimiento("ADMIN");
-		pago.setCantidad(10);
+		pago.setMontoPago(250.20);
+		pago.setClienteReceptor("Cliente_Receptor");
+		pago.setCantidad(2);
 		pago.setConcepto("PAGO PRESTAMOS");
 		String inputJson = mapToJson(pago);
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(uri)
@@ -69,7 +69,7 @@ class SyspagosApplicationTests {
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(uri)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 			.param("idPago", "11")
-			.param("statusPago", "TESTING.....")
+			.param("statusPago", "UPDATE")
 		).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 		assertEquals(200, status);
@@ -77,7 +77,7 @@ class SyspagosApplicationTests {
 
 	@Test
 	void getStatusPago() throws Exception {
-		String uri = "/v1/pagos/status/cvePago/11";
+		String uri = "/v1/pagos/status/1";
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(uri)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 		).andReturn();
@@ -87,7 +87,7 @@ class SyspagosApplicationTests {
 
 	@Test
 	void getPago() throws Exception {
-		String uri = "/v1/pagos/cvePago/11";
+		String uri = "/v1/pagos/1";
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(uri)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 		).andReturn();

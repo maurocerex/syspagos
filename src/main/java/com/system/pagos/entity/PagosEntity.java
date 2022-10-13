@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 
@@ -28,12 +29,12 @@ public class PagosEntity implements Serializable {
     private Integer cantidad;
 
     @Basic
-    @Column(name = "usuario_mov")
-    private String usuarioMovimiento;
+    @Column(name = "cliente_emisor")
+    private String clienteEmisor;
 
     @Basic
-    @Column(name = "cliente_pagado")
-    private String clientePago;
+    @Column(name = "cliente_receptor")
+    private String clienteReeceptor;
 
     @Basic
     @Column(name = "monto_pago")
@@ -43,4 +44,7 @@ public class PagosEntity implements Serializable {
     @Column(name = "estatus_pago")
     private String estatusPago;
 
+    @Basic
+    @Column(name = "fecha_pago")
+    private Date fechaPago;
 }

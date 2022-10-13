@@ -1,6 +1,6 @@
 package com.system.pagos.configuration;
 
-import com.system.pagos.domain.PagosDTO;
+import com.system.pagos.domain.PagosDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Configuration
 public class KafkaStringConfig {
 
-    public ProducerFactory<String, PagosDTO> producerFactory() {
+    public ProducerFactory<String, PagosDto> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "PLAINTEXT://redpanda:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -31,7 +31,7 @@ public class KafkaStringConfig {
     }
 
     @Bean(name = "kafkaStringTemplate")
-    public KafkaTemplate<String, PagosDTO> kafkaTemplate() {
+    public KafkaTemplate<String, PagosDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }
