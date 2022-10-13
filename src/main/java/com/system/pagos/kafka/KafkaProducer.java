@@ -20,7 +20,7 @@ public class KafkaProducer {
 
     public void sendMessage(PagosDto message, String key) {
         log.info("Producing message {}", message);
-        this.kafkaTemplate.send("TOPIC-DEMO", key, message);
+        this.kafkaTemplate.send("TOPIC-PAGOS", key, message);
     }
 
 }
