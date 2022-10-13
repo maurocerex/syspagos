@@ -1,0 +1,57 @@
+version: '3.3'
+services:
+  mysql:
+    image: mysql:8.0.31
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Testingert
+      - MYSQL_DATABASE=demo
+      - MYSQL_USER=nuevo
+      - MYSQL_PASSWORD=bancobase
+    ports:
+      - 3307:3306
+    volumes:
+      -  my-datavolume:/var/lib/mysql
+    networks:
+      - backend
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 9085:9085
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo?autoReconnect=true&useSSL=false
+    depends_on:
+      - mysql
+    networks:
+      - backend
+  redpanda:
+    command:
+      - redpanda
+      - start
+      - --smp
+      - '1'
+      - --reserve-memory
+      - 0M
+      - --overprovisioned
+      - --node-id
+      - '0'
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://redpanda:29092,OUTSIDE://redpanda:9092
+    image: docker.vectorized.io/vectorized/redpanda:v22.2.6
+    container_name: redpanda-1
+    ports:
+      - 9092:9092
+      - 29092:29092
+    networks:
+      - backend
+volumes:
+  my-datavolume:
+
+networks:
+  backend:
+    driver: bridge
